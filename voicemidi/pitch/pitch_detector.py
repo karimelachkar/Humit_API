@@ -1,15 +1,16 @@
 import numpy as np
-import aubio
+import librosa
+from collections import Counter
 
 class PitchDetector:
     """
     Detects pitch from audio data and converts it to MIDI notes.
     
-    This class uses the aubio library to detect the fundamental frequency
+    This class uses librosa to detect the fundamental frequency
     of an audio signal and convert it to MIDI notes.
     """
     
-    def __init__(self, sample_rate=44100, block_size=1024, method="yin", 
+    def __init__(self, sample_rate=44100, block_size=1024, 
                  min_confidence=0.7, min_frequency=50, max_frequency=1000):
         """
         Initialize the pitch detector.
@@ -17,7 +18,6 @@ class PitchDetector:
         Args:
             sample_rate (int): Audio sample rate in Hz
             block_size (int): Number of frames per block
-            method (str): Pitch detection method ('yin', 'yinfft', 'fcomb', 'mcomb', 'schmitt')
             min_confidence (float): Minimum confidence threshold (0-1)
             min_frequency (float): Minimum detectable frequency in Hz
             max_frequency (float): Maximum detectable frequency in Hz
@@ -25,19 +25,6 @@ class PitchDetector:
         self.sample_rate = sample_rate
         self.block_size = block_size
         self.min_confidence = min_confidence
-        
-        # Initialize aubio pitch detector
-        self.pitch_detector = aubio.pitch(
-            method=method,
-            buf_size=block_size,
-            hop_size=block_size,
-            samplerate=sample_rate
-        )
-        
-        # Set frequency limits
-        self.pitch_detector.set_unit("Hz")
-        self.pitch_detector.set_silence(-60)
-        self.pitch_detector.set_tolerance(0.8)
         
         # Set frequency range
         self.min_frequency = min_frequency
@@ -50,7 +37,7 @@ class PitchDetector:
         
     def detect_pitch(self, audio_data):
         """
-        Detect the pitch from audio data.
+        Detect the pitch from audio data using librosa.
         
         Args:
             audio_data (ndarray): Audio data
@@ -64,15 +51,36 @@ class PitchDetector:
         # Ensure audio data is float32 and properly shaped
         audio_float = audio_data.astype(np.float32)
         
-        # Detect pitch
-        frequency = self.pitch_detector(audio_float)[0]
-        confidence = self.pitch_detector.get_confidence()
-        
-        # Apply confidence threshold and frequency range limits
-        if confidence < self.min_confidence or frequency < self.min_frequency or frequency > self.max_frequency:
-            return 0, confidence
+        # Use librosa's pitch detection (returns pitch and voiced confidence)
+        try:
+            # Extract pitch using pyin algorithm from librosa
+            pitches, voiced_flags, voiced_probs = librosa.pyin(
+                audio_float, 
+                fmin=self.min_frequency,
+                fmax=self.max_frequency,
+                sr=self.sample_rate,
+                frame_length=self.block_size
+            )
             
-        return frequency, confidence
+            # Get the pitch and confidence from the result
+            if pitches is not None and len(pitches) > 0 and len(voiced_probs) > 0:
+                # Find non-nan values in the pitch array
+                valid_indices = ~np.isnan(pitches)
+                
+                if np.any(valid_indices):
+                    # Calculate mean pitch and mean confidence from valid values
+                    pitch = np.mean(pitches[valid_indices])
+                    confidence = np.mean(voiced_probs[valid_indices])
+                    
+                    # Apply confidence threshold
+                    if confidence >= self.min_confidence:
+                        return pitch, confidence
+            
+            return 0, 0
+            
+        except Exception as e:
+            print(f"Error in pitch detection: {e}")
+            return 0, 0
         
     def frequency_to_midi_note(self, frequency):
         """
@@ -135,7 +143,6 @@ class PitchDetector:
                 
             # Get the most common note in the buffer
             if self.note_buffer:
-                from collections import Counter
                 counter = Counter(self.note_buffer)
                 midi_note = counter.most_common(1)[0][0]
         

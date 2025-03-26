@@ -60,7 +60,6 @@ class VoiceToMidi:
         self.pitch_detector = PitchDetector(
             sample_rate=audio_config["sample_rate"],
             block_size=audio_config["block_size"],
-            method=pitch_config["method"],
             min_confidence=pitch_config["min_confidence"],
             min_frequency=pitch_config["min_frequency"],
             max_frequency=pitch_config["max_frequency"]
@@ -71,7 +70,6 @@ class VoiceToMidi:
         self.onset_detector = OnsetDetector(
             sample_rate=audio_config["sample_rate"],
             block_size=audio_config["block_size"],
-            method=onset_config["method"],
             threshold=onset_config["threshold"],
             silence=onset_config["silence"],
             minimum_inter_onset_interval_ms=onset_config["minimum_inter_onset_interval_ms"]

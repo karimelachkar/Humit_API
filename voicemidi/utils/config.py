@@ -14,7 +14,6 @@ DEFAULT_CONFIG = {
     
     # Pitch detection settings
     "pitch": {
-        "method": "yin",
         "min_confidence": 0.7,
         "min_frequency": 50,
         "max_frequency": 1000,
@@ -23,7 +22,6 @@ DEFAULT_CONFIG = {
     
     # Onset detection settings
     "onset": {
-        "method": "hfc",
         "threshold": 0.3,
         "silence": -60,
         "minimum_inter_onset_interval_ms": 80
