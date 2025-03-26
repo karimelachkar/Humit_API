@@ -1,0 +1,33 @@
+{
+  "audio": {
+    "sample_rate": 44100,
+    "block_size": 1024,
+    "channels": 1,
+    "device": null
+  },
+  "pitch": {
+    "method": "yin",
+    "min_confidence": 0.7,
+    "min_frequency": 50,
+    "max_frequency": 1000,
+    "buffer_size": 3
+  },
+  "onset": {
+    "method": "hfc",
+    "threshold": 0.3,
+    "silence": -60,
+    "minimum_inter_onset_interval_ms": 80
+  },
+  "midi": {
+    "virtual_port_name": "VoiceToMIDI",
+    "port_name": null,
+    "velocity": 64,
+    "channel": 0
+  },
+  "app": {
+    "debug": false,
+    "log_file": "voicemidi.log",
+    "save_recordings": false,
+    "recordings_folder": "recordings"
+  }
+}
