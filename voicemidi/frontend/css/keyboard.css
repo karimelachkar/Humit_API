@@ -1,0 +1,125 @@
+/* Virtual Piano Keyboard Styles */
+.piano-keyboard {
+  display: flex;
+  position: relative;
+  height: 120px;
+  min-width: max-content;
+}
+
+/* Individual keys */
+.piano-key {
+  position: relative;
+  height: 100%;
+  transition: background-color 0.1s ease;
+  cursor: pointer;
+}
+
+/* White keys */
+.white-key {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 0 0 4px 4px;
+  width: 40px;
+  margin-right: -1px;
+  z-index: 1;
+}
+
+/* Black keys */
+.black-key {
+  background-color: #000;
+  border: 1px solid #000;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  width: 24px;
+  height: 65%;
+  margin-left: -12px;
+  margin-right: -12px;
+  z-index: 2;
+}
+
+/* Key labels */
+.key-label {
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 10px;
+}
+
+.white-key .key-label {
+  color: #333;
+}
+
+.black-key .key-label {
+  color: #fff;
+  bottom: 10px;
+}
+
+/* Active key styling */
+.white-key.key-active {
+  background-color: rgba(142, 68, 173, 0.3);
+  border-color: #8e44ad;
+}
+
+.black-key.key-active {
+  background-color: #8e44ad;
+}
+
+/* Hover effects */
+.white-key:hover {
+  background-color: #f0f0f0;
+}
+
+.black-key:hover {
+  background-color: #333;
+}
+
+/* Keyboard octave markers */
+.octave-marker {
+  position: absolute;
+  bottom: -18px;
+  font-size: 10px;
+  color: var(--dark-text-secondary);
+}
+
+/* Light theme adjustments */
+.light-theme .black-key {
+  border-color: #222;
+}
+
+.light-theme .white-key {
+  border-color: #aaa;
+}
+
+/* Key notes - C is highlighted */
+.key-c {
+  border-left-width: 2px;
+  border-left-color: #666;
+}
+
+.light-theme .key-c {
+  border-left-color: #999;
+}
+
+/* Custom scroll behavior for keyboard */
+.keyboard-visual::-webkit-scrollbar {
+  height: 6px;
+}
+
+.dark-theme .keyboard-visual::-webkit-scrollbar-track {
+  background: var(--dark-bg-tertiary);
+}
+
+.light-theme .keyboard-visual::-webkit-scrollbar-track {
+  background: var(--light-bg-tertiary);
+}
+
+.keyboard-visual::-webkit-scrollbar-thumb {
+  background: var(--dark-accent);
+  border-radius: 3px;
+}
+
+.keyboard-visual::-webkit-scrollbar-thumb:hover {
+  background: var(--dark-accent-hover);
+}
