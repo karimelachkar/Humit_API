@@ -1,4 +1,9 @@
 from setuptools import setup, find_packages
+import os
+
+# Read the contents of the README file
+with open("README.md", encoding="utf-8") as f:
+    long_description = f.read()
 
 setup(
     name="voicemidi",
@@ -17,11 +22,26 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "voicemidi=voicemidi.main:main",
+            "voicemidi=voicemidi.backend.core.cli:main",
         ],
     },
     author="Karim Elachkar",
-    description="Voice to MIDI converter for personal use",
-    keywords="voice, midi, audio, music",
+    author_email="your.email@example.com",  # Update with your email
+    description="A real-time application that converts voice input to MIDI notes",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    keywords="voice, midi, audio, music, pitch detection, onset detection",
     python_requires=">=3.8",
+    classifiers=[
+        "Development Status :: 3 - Alpha",
+        "Intended Audience :: Musicians",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Topic :: Multimedia :: Sound/Audio :: MIDI",
+        "Topic :: Multimedia :: Sound/Audio :: Analysis",
+    ],
+    include_package_data=True,
+    license="Proprietary",
 ) 

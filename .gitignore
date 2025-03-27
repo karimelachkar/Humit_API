@@ -42,9 +42,39 @@ ENV/
 .coverage
 htmlcov/
 .pytest_cache/
+coverage_html_report/
+coverage.xml
+.coverage.*
 
 # Distribution / packaging
 .Python
 dist/
 build/
-*.egg-info/ 
+*.egg-info/
+
+# Project specific
+*.log
+voicemidi.log
+recordings/
+*.wav
+*.midi
+*.mid
+
+# Config variations
+config.*.json
+
+# Pre-commit
+.pre-commit-config.yaml
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+
+# Jupyter Notebooks
+.ipynb_checkpoints
+*.ipynb
+
+# Cache directories
+__pycache__/
+.mypy_cache/
+.cache/ 

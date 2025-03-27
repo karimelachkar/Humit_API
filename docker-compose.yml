@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  voicemidi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ${HOME}/.voicemidi:/root/.voicemidi
+      - ${XDG_RUNTIME_DIR}/pulse/native:${XDG_RUNTIME_DIR}/pulse/native
+      - ~/.config/pulse/cookie:/root/.config/pulse/cookie
+    # Add audio device support for Linux
+    devices:
+      - /dev/snd:/dev/snd
+    # The following is needed for ALSA audio on Linux
+    environment:
+      - PULSE_SERVER=unix:${XDG_RUNTIME_DIR}/pulse/native
+    # Pass through any command line arguments to the container
+    command: ${ARGS:-}

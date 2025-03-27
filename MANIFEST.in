@@ -1,0 +1,18 @@
+include LICENSE
+include README.md
+include MANIFEST.in
+include pyproject.toml
+include setup.py
+include requirements.txt
+include config.json
+include *.py
+
+recursive-include voicemidi *.py
+recursive-include voicemidi/backend/gui *.ui
+recursive-exclude voicemidi/__pycache__ *
+recursive-exclude voicemidi/*/__pycache__ *
+recursive-exclude voicemidi/*/*/__pycache__ *
+recursive-exclude *.egg-info *
+recursive-exclude *.egg *
+recursive-exclude .git *
+recursive-exclude venv * 
